@@ -1,2 +1,2 @@
 # Personal-closet
-Keep information on clothes that I have
+App that keep information on my clothes.
