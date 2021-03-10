@@ -6,7 +6,9 @@ python:
 services:
   - docker
 
-before_script: pip install docker-compose
+before_script: 
+  - pip install docker-compose
+  - pipenv install
 
 script:
   - docker-compose exec --rm web python manage.py test && flake8
