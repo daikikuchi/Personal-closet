@@ -12,4 +12,4 @@ before_script:
 script:
   - docker-compose up -d --build
   - docker-compose exec web python manage.py test 
-  - docker-compose exec web python manage.py test && flake8
+  - docker-compose exec web python manage.p  flake8
