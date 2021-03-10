@@ -8,6 +8,7 @@ services:
 
 before_script: 
   - pip install docker-compose
+  - pipenv install
 
 script:
   - docker-compose up -d --build
