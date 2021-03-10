@@ -8,7 +8,8 @@ services:
 
 before_script: 
   - pip install docker-compose
-  - pipenv install
 
 script:
-  - docker-compose exec --rm web python manage.py test && flake8
+  - docker-compose up -d --build
+  - docker-compose exec web python manage.py test 
+  - docker-compose exec web python manage.py test && flake8
