@@ -42,8 +42,7 @@ class Custom_User_Model_Test(TestCase):
             email=email,
             password=password,
         )
-
         self.assertTrue(admin_user.email, email)
         self.assertTrue(admin_user.is_active)
         self.assertTrue(admin_user.is_superuser)
-        self.assertTrue(admin_user.is_stuff)
+        self.assertTrue(admin_user.is_staff)
