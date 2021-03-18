@@ -48,6 +48,7 @@ class Custom_User_Model_Test(TestCase):
         self.assertTrue(admin_user.is_superuser)
         self.assertTrue(admin_user.is_staff)
 
+
 class AdminSiteTests(TestCase):
 
     def setUp(self):
