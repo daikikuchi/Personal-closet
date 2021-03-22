@@ -130,3 +130,4 @@ dmypy.json
 
 # Django stuff:
 db.sqlite3
+.DS_Store
