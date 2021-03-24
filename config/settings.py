@@ -38,9 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     # Third-party
     'crispy_forms',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 
     # Local
     'accounts',
@@ -147,5 +151,21 @@ STATICFILES_FINDERS = [
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend', 
+)
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' 
+
 LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_REDIRECT = '/'
+
+ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False 
+ACCOUNT_AUTHENTICATION_METHOD = 'email' # Set auth method to email
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None # Define that there is no user name field
+ACCOUNT_EMAIL_REQUIRED = True # Require email 
+ACCOUNT_USERNAME_REQUIRED = False # do not require user name
