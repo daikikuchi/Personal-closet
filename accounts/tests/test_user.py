@@ -94,6 +94,19 @@ class SignUpPageTests(TestCase):
 
     def test_signup_template(self):
         """Test that singup template is rendered correctly"""
-        self.assertTemplateUsed(self.response, 'registration/signup.html')
+        self.assertTemplateUsed(self.response, 'account/signup.html')
         self.assertContains(self.response, 'Sign Up')
         self.assertNotContains(self.response, 'I am not on this page!')
+
+    def test_signup_form(self):
+        email = 'test@gmail.com'
+        password = 'testpassword'
+
+        user = get_user_model().objects.create_user(
+            email=email,
+            password=password,
+        )
+        self.assertEqual(get_user_model().objects.all().count(), 1)
+        self.assertTrue(get_user_model().objects.all()[0]
+                        .check_password(password))
+        self.assertEqual(get_user_model().objects.all()[0].email, user.email)
