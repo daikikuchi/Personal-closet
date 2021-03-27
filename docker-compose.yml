@@ -9,6 +9,8 @@ services:
     ports:
       - 8000:8000
     environment:
+      - "DJANGO_SECRET_KEY=yu5&*jchdu%6l=bfpfzx7$$1^h_w9%o#ysv51)oj0jg@d@^32kx"
+      - "DJANGO_DEBUG=True"
       - DB_HOST=db
       - DB_NAME=app
       - DB_USER=postgres
