@@ -1,14 +1,9 @@
-h1 {
-    color: red;
-}
-
 .bookcover {
     height: 300px; 
     width: auto;
 }
 
 body {
-    background-color: #f0f3f5;
 	font-family: 'Roboto';
 }
 
@@ -57,7 +52,7 @@ body {
 	border-radius: 2px;
 	background-color: #23a9f6;
 	border-color: #23a9f6;
-	margin: 10px 0px;
+	margin: 15px 0px;
 }
 
 p {
@@ -130,3 +125,15 @@ div.field > input, div.field > textarea, div.field > select, div.field > button 
 	background-color: rgb(108, 116, 236);
 	color:white;
 }
+
+/* .login-button {
+    background: none!important;
+    border: none;
+    padding: 0!important;
+    /*optional*/
+    font-family: arial, sans-serif;
+    /*input has OS specific font-family*/
+    color: #069;
+    text-decoration: underline;
+    cursor: pointer;
+} */
