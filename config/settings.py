@@ -122,9 +122,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ja'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tokyo'
 
 USE_I18N = True
 
@@ -164,3 +164,4 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email' # Set auth method to email
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None # Define that there is no user name field
 ACCOUNT_EMAIL_REQUIRED = True # Require email 
 ACCOUNT_USERNAME_REQUIRED = False # do not require user name
+# ACCOUNT_LOGOUT_ON_GET = True 

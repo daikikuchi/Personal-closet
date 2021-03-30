@@ -1,0 +1,30 @@
+div.field {
+    margin-top: 10px;
+}
+
+div.field > span.helptext {
+    font-size: 14px;
+    color: #999;
+}
+
+div.field > label {
+    display: block;
+}
+
+div.field > input, div.field > textarea, div.field > select, div.field > button {
+    width: 100%;
+    padding: 6px 12px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: solid 1px #999;
+}
+
+.alert-message {
+	background-color: red;
+	color:white;
+}
+
+.info-message {
+	background-color: rgb(108, 116, 236);
+	color:white;
+}
