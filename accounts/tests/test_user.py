@@ -95,7 +95,7 @@ class SignUpPageTests(TestCase):
     def test_signup_template(self):
         """Test that singup template is rendered correctly"""
         self.assertTemplateUsed(self.response, 'account/signup.html')
-        self.assertContains(self.response, 'Sign Up')
+        self.assertContains(self.response, '登録する')
         self.assertNotContains(self.response, 'I am not on this page!')
 
     def test_signup_form(self):
