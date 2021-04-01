@@ -28,6 +28,15 @@ class Tag_Model_Test(TestCase):
             description='Gran Sasso（グランサッソ）は1952年サンテジーディオ・アッラ・ヴィブラータ\
             という小さな村で、起業精神あふれる4人の兄弟により設立されました。'
         )
-        print(type(brand))
-        print(type(str(brand)))
         self.assertEqual(str(brand), brand.name)
+
+    def test_category_str(self):
+        """Test the category strung representation"""
+        category = models.Category.objects.create(
+            user=self.user,
+            name='Jacket',
+        )
+        self.assertEqual(str(category), category.name)
+
+    # def test_sub_category_str(self):
+    #     """"""
