@@ -12,6 +12,11 @@ class Tag_Model_Test(TestCase):
             password='password'
         )
 
+        self.category = models.Category.objects.create(
+            user=self.user,
+            name='Jacket',
+        )
+
     def test_tag_str(self):
         """Test the tag string reprsentation"""
         tag = models.Tag.objects.create(
@@ -32,11 +37,13 @@ class Tag_Model_Test(TestCase):
 
     def test_category_str(self):
         """Test the category strung representation"""
-        category = models.Category.objects.create(
-            user=self.user,
-            name='Jacket',
-        )
-        self.assertEqual(str(category), category.name)
+        self.assertEqual(str(self.category), self.category.name)
 
-    # def test_sub_category_str(self):
-    #     """"""
+    def test_sub_category_str(self):
+        """Test the sub category string reprsenation"""
+        sub_category = models.SubCategory.objects.create(
+            name='Casual Jacket',
+            category=self.category,
+        )
+        self.assertEqual(str(sub_category),
+                         f'{sub_category.category} - {sub_category.name}')
