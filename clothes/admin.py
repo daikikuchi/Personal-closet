@@ -18,6 +18,7 @@ class SubCategoryInline(admin.StackedInline):
     model = SubCategory
     extra = 1
 
+
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug')
     prepopulated_fields = {'slug': ('name',)}
