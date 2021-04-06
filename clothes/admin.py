@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Tag, Brand, Category, Shop
+from .models import Tag, Brand, Category, Shop, SubCategory
 
 
 class TagAdmin(admin.ModelAdmin):
@@ -14,10 +14,16 @@ class BrandAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
 
+class SubCategoryInline(admin.StackedInline):
+    model = SubCategory
+    extra = 1
+
+
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug')
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ('name',)
+    inlines = [SubCategoryInline]
 
 
 class ShopAdmin(admin.ModelAdmin):
