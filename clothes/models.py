@@ -81,3 +81,25 @@ class SubCategory(models.Model):
 
     def __str__(self):
         return f'{self.category} - {self.name}'
+
+
+class Shop(models.Model):
+    """Shop for clothes"""
+    name = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=255, null=False, unique=True)
+    url = models.URLField(max_length=255)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.PROTECT
+    )
+
+    class Meta:
+        ordering = ['-name']
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        return super().save(*args, **kwargs)

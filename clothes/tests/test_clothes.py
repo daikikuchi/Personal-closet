@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from clothes import models
 
 
-class Tag_Model_Test(TestCase):
+class Cloths_Model_Test(TestCase):
 
     def setUp(self):
         self.user = get_user_model().objects.create_user(
@@ -47,3 +47,12 @@ class Tag_Model_Test(TestCase):
         )
         self.assertEqual(str(sub_category),
                          f'{sub_category.category} - {sub_category.name}')
+
+    def test_shop_str(self):
+        """Test the sho[] category string reprsenation"""
+        shop = models.Shop.objects.create(
+            name='Moden Blue',
+            url='https://www.rakuten.ne.jp/gold/mb/rk/',
+            user=self.user,
+        )
+        self.assertEqual(str(shop), shop.name)
