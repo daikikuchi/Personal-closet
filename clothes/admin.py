@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Tag, Brand, Category
+from .models import Tag, Brand, Category, Shop
 
 
 class TagAdmin(admin.ModelAdmin):
@@ -20,6 +20,13 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
 
+class ShopAdmin(admin.ModelAdmin):
+    list_display = ('name', 'slug', 'url')
+    prepopulated_fields = {'slug': ('name',)}
+    search_fields = ('name',)
+
+
 admin.site.register(Tag, TagAdmin)
 admin.site.register(Brand, BrandAdmin)
 admin.site.register(Category, CategoryAdmin)
+admin.site.register(Shop, ShopAdmin)
