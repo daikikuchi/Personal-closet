@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Tag, Brand, Category, Shop, SubCategory
+from .models import Tag, Brand, Category, Shop, SubCategory, Clothes
 
 
 class TagAdmin(admin.ModelAdmin):
@@ -32,7 +32,14 @@ class ShopAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
 
+class ClothesAdmin(admin.ModelAdmin):
+    list_display = ('name', 'brand', 'shop', 'sub_category', 'purchased')
+    list_filter = ('name', 'brand', 'shop', 'purchased')
+    search_fields = ('name', 'brand', 'shop')
+
+
 admin.site.register(Tag, TagAdmin)
 admin.site.register(Brand, BrandAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Shop, ShopAdmin)
+admin.site.register(Clothes, ClothesAdmin)
