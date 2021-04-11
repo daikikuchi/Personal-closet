@@ -25,7 +25,8 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
 
     # Local apps
-    path('', include('pages.urls')),
+    path('clothes/', include('clothes.urls')),
     path('accounts/', include('accounts.urls')),
+    path('', include('pages.urls')),
 ] + static(settings.MEDIA_URL,
            document_root=settings.MEDIA_ROOT)
