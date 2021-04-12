@@ -6,7 +6,7 @@
 {% block content %}
 <ul>
   {% for brand in brand_list %}
-  <li>{{ brand.name }}</li>
+  <li><a href="{% url 'clothes:brand_clothes' slug=brand.slug id=brand.id %}">{{brand.name}}</a></li>
   {% endfor %}
 </ul>
 {% endblock content %}
