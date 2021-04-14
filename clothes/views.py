@@ -39,4 +39,5 @@ class CategoryClothesListView(LoginRequiredMixin, OwnerMixin):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        return queryset.filter(sub_category__category=self.kwargs.get('id'))
+        return (queryset.
+                filter(sub_category__category__slug=self.kwargs.get('slug')))

@@ -41,7 +41,7 @@ class Cloths_Model_Test(TestCase):
 
         self.clothes = models.Clothes.objects.create(
             user=self.user,
-            name='Lardini shirt jaket',
+            name='Lardini shirt Jacket',
             price=35000,
             description='ラルディーニのシャツジャケット',
             purchased=timezone.now(),
@@ -89,6 +89,7 @@ class Cloths_Model_Test(TestCase):
         self.assertEqual(file_path, exp_path)
 
     def test_brand_listing_for_logged_in_user(self):
+        """Test list view of Brand objects for logged in user"""
         self.client.force_login(self.user)
         response = self.client.get(reverse('clothes:brand_list'))
         self.assertEqual(response.status_code, 200)
@@ -96,31 +97,74 @@ class Cloths_Model_Test(TestCase):
         self.assertTemplateUsed(response, 'brand/brand_list.html')
 
     def test_brand_listing_for_logged_out_user(self):
+        """Test accessing to list view of Brand objects with logged out user"""
         response = self.client.get(reverse('clothes:brand_list'))
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(
-             response, '%s?next=/clothes/brands/' % (reverse('account_login')))
+             response, '%s?next=/clothes/brand/' % (reverse('account_login')))
         response = self.client.get(
-            '%s?next=/clothes/brands/' % (reverse('account_login')))
+            '%s?next=/clothes/brand/' % (reverse('account_login')))
         self.assertContains(response, 'ログイン')
 
     def test_brand_clothes_listing_for_logged_in_user(self):
+        """Test listing of clothes of a brand for logged in user"""
         self.client.force_login(self.user)
         response = self.client.get(reverse('clothes:brand_clothes',
                                    kwargs={'id': self.brand.id,
                                            'slug': self.brand.slug}))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Lardini shirt jaket')
+        self.assertContains(response, 'Lardini shirt Jacket')
         self.assertTemplateUsed(response, 'brand/brand_clothes_list.html')
 
     def test_brand_clothes_listing_for_logged_out_user(self):
+        """Test for logged_out_user to access to brand clotes list view"""
         response = self.client.get(reverse('clothes:brand_clothes',
                                    kwargs={'id': self.brand.id,
                                            'slug': self.brand.slug}))
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(
              response,
-             '%s?next=/clothes/brands/2/lardini/' % (reverse('account_login')))
+             '%s?next=/clothes/brand/2/lardini/' % (reverse('account_login')))
         response = self.client.get(
-            '%s?next=/clothes/brands/2/lardini/' % (reverse('account_login')))
+            '%s?next=/clothes/brand/2/lardini/' % (reverse('account_login')))
+        self.assertContains(response, 'ログイン')
+
+    def test_category_listing_for_logged_in_user(self):
+        """Test list view of Category objects for logged in user"""
+        self.client.force_login(self.user)
+        response = self.client.get(reverse('clothes:category_list'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Jacket')
+        self.assertTemplateUsed(response, 'category/category_list.html')
+
+    def test_category_listing_for_logged_out_user(self):
+        """Test accessing to list view of Brand objects with logged out user"""
+        response = self.client.get(reverse('clothes:category_list'))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(
+             response, '%s?next=/clothes/category/'
+             % (reverse('account_login')))
+        response = self.client.get(
+            '%s?next=/clothes/brand/' % (reverse('account_login')))
+        self.assertContains(response, 'ログイン')
+
+    def test_category_clothes_listing_for_logged_in_user(self):
+        """Test listing of clothes of a Category for logged in user"""
+        self.client.force_login(self.user)
+        response = self.client.get(reverse('clothes:category_clothes',
+                                   kwargs={'slug': self.category.slug}))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Lardini shirt Jacket')
+
+    def test_category_clothes_listing_for_logged_out_user(self):
+        """Test for logged_out_user to access to category clotes list view"""
+        response = self.client.get(reverse('clothes:category_clothes',
+                                   kwargs={'slug': self.category.slug}))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(
+             response, '%s?next=/clothes/category/%s/'
+             % (reverse('account_login'), self.category.slug))
+        response = self.client.get(
+            '%s?next=/clothes/category/%s/'
+            % (reverse('account_login'), self.category.slug))
         self.assertContains(response, 'ログイン')

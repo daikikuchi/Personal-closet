@@ -13,7 +13,7 @@ urlpatterns = [
 
     # Category URLS
     path('category/', CategoryListView.as_view(), name='category_list'),
-    path('category/<int:id>/<slug:slug>/',
+    path('category/<slug:slug>/',
          CategoryClothesListView.as_view(),
          name='category_clothes'),
 ]
