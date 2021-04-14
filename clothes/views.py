@@ -1,8 +1,7 @@
 from django.views.generic import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import Http404
 
-from .models import Brand, Clothes
+from .models import Brand, Clothes, Category
 
 
 class OwnerMixin(ListView):
@@ -17,17 +16,28 @@ class BrandListView(LoginRequiredMixin, OwnerMixin):
     template_name = 'brand/brand_list.html'
 
 
-class BrandClothesListView(LoginRequiredMixin, ListView):
+class BrandClothesListView(LoginRequiredMixin, OwnerMixin):
     model = Clothes
     context_object_name = 'brand_clothes_list'
     template_name = 'brand/brand_clothes_list.html'
 
     def get_queryset(self):
-        try:
-            clothes = (Clothes.objects.select_related('brand')
-                       .filter(brand=self.kwargs.get('id'),
-                       user=self.request.user))
-        except Brand.DoesNotExist:
-            raise Http404
-        else:
-            return clothes
+        queryset = super().get_queryset()
+        return queryset.filter(brand=self.kwargs.get('id'))
+
+
+class CategoryListView(LoginRequiredMixin, OwnerMixin):
+    model = Category
+    context_object_name = 'category_list'
+    template_name = 'category/category_list.html'
+
+
+class CategoryClothesListView(LoginRequiredMixin, OwnerMixin):
+    model = Clothes
+    context_object_name = 'category_clothes_list'
+    template_name = 'category/category_clothes_list.html'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return (queryset.
+                filter(sub_category__category__slug=self.kwargs.get('slug')))
