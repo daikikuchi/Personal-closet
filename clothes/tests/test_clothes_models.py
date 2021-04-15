@@ -35,6 +35,22 @@ def sample_shop(user, name='beams', url='https://beams.com'):
     )
 
 
+def sample_clothes(user, category, **params):
+    """Create and return a sample recipe"""
+    defaults = {
+        'name': 'Lardini shirt Jacket',
+        'price': 35000,
+        'description': 'ラルディーニのシャツジャケット',
+        'brand': sample_brand(user=user),
+        'sub_category': sample_subcategory(category=category),
+        'shop': sample_shop(user=user),
+        'purchased': timezone.now(),
+    }
+    defaults.update(params)
+
+    return models.Clothes.objects.create(user=user, **defaults)
+
+
 class Cloths_Model_Test(TestCase):
 
     def setUp(self):
@@ -90,15 +106,9 @@ class Cloths_Model_Test(TestCase):
         category = sample_category(
             user=self.user,
         )
-        clothes = models.Clothes.objects.create(
+        clothes = sample_clothes(
             user=self.user,
-            name='Lardini shirt Jacket',
-            price=35000,
-            description='ラルディーニのシャツジャケット',
-            brand=sample_brand(user=self.user),
-            sub_category=sample_subcategory(category=category),
-            shop=sample_shop(user=self.user),
-            purchased=timezone.now(),
+            category=category
         )
         self.assertEqual(str(clothes), clothes.name)
 

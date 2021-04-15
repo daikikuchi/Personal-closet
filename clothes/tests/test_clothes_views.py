@@ -7,6 +7,14 @@ from clothes.tests.test_clothes_models import (sample_brand, sample_category,
                                                sample_subcategory, sample_shop)
 
 
+def create_other_user():
+    other_user = get_user_model().objects.create_user(
+            email='hana.kikuchi@gmail.com',
+            password='password1023'
+        )
+    return other_user
+
+
 class Cloths_Model_Test(TestCase):
 
     def setUp(self):
@@ -18,13 +26,17 @@ class Cloths_Model_Test(TestCase):
 
     def test_brand_listing_for_logged_in_user(self):
         """Test list view of Brand objects for logged in user"""
-        sample_brand(self.user, name='Lardini')
-
         self.client.force_login(self.user)
+        other_user = create_other_user()
+        # Create brand object with logged_in user
+        sample_brand(self.user, name='Lardini')
+        # Create brand object with other_user
+        sample_brand(user=other_user, name='Gransasso')
         response = self.client.get(reverse('clothes:brand_list'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Lardini')
         self.assertTemplateUsed(response, 'brand/brand_list.html')
+        self.assertEqual(len(response.context['brand_list']), 1)
 
     def test_brand_listing_for_logged_out_user(self):
         """Test accessing to list view of Brand objects with logged out user"""
@@ -40,6 +52,10 @@ class Cloths_Model_Test(TestCase):
         """Test listing of clothes of a brand for logged in user"""
         category = sample_category(self.user)
         brand = sample_brand(self.user, name='Lardini')
+        self.client.force_login(self.user)
+        other_user = create_other_user()
+
+        # Create clothe object with logged_in user
         models.Clothes.objects.create(
             user=self.user,
             name='Lardini shirt Jacket',
@@ -50,13 +66,25 @@ class Cloths_Model_Test(TestCase):
             shop=sample_shop(self.user),
             purchased=timezone.now(),
         )
-        self.client.force_login(self.user)
+
+        # Create clothe object with other_user
+        models.Clothes.objects.create(
+            user=other_user,
+            name='Gransasso Knit',
+            price=22000,
+            description='Gransassoのシャツジャケット',
+            brand=sample_brand(user=other_user, name='Gransasso'),
+            sub_category=sample_subcategory(category=category),
+            shop=sample_shop(other_user, name='ModernBlue'),
+            purchased=timezone.now(),
+        )
         response = self.client.get(reverse('clothes:brand_clothes',
                                    kwargs={'id': brand.id,
                                            'slug': brand.slug}))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Lardini shirt Jacket')
         self.assertTemplateUsed(response, 'brand/brand_clothes_list.html')
+        self.assertEqual(len(response.context['brand_clothes_list']), 1)
 
     def test_brand_clothes_listing_for_logged_out_user(self):
         """Test for logged_out_user to access to brand clotes list view"""
@@ -74,12 +102,17 @@ class Cloths_Model_Test(TestCase):
 
     def test_category_listing_for_logged_in_user(self):
         """Test list view of Category objects for logged in user"""
-        sample_category(user=self.user)
         self.client.force_login(self.user)
+        other_user = create_other_user()
+        # Create category object with logged_in user
+        sample_category(user=self.user)
+        # Create category object with other_user
+        sample_category(user=other_user, name='Knit')
         response = self.client.get(reverse('clothes:category_list'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Jacket')
         self.assertTemplateUsed(response, 'category/category_list.html')
+        self.assertEqual(len(response.context['category_list']), 1)
 
     def test_category_listing_for_logged_out_user(self):
         """Test accessing to list view of Brand objects with logged out user"""
@@ -94,7 +127,9 @@ class Cloths_Model_Test(TestCase):
 
     def test_category_clothes_listing_for_logged_in_user(self):
         """Test listing of clothes of a Category for logged in user"""
+        self.client.force_login(self.user)
         category = sample_category(self.user)
+        # Create clothe object with logged_in user
         models.Clothes.objects.create(
             user=self.user,
             name='Lardini shirt Jacket',
@@ -105,11 +140,25 @@ class Cloths_Model_Test(TestCase):
             shop=sample_shop(self.user),
             purchased=timezone.now(),
         )
-        self.client.force_login(self.user)
+        other_user = create_other_user()
+        # Create clothe object with other_user
+        models.Clothes.objects.create(
+            user=other_user,
+            name='Gransasso Knit',
+            price=22000,
+            description='Gransassoのシャツジャケット',
+            brand=sample_brand(user=other_user, name='Gransasso'),
+            sub_category=sample_subcategory(category=category),
+            shop=sample_shop(other_user, name='ModernBlue'),
+            purchased=timezone.now(),
+        )
         response = self.client.get(reverse('clothes:category_clothes',
                                    kwargs={'slug': category.slug}))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Lardini shirt Jacket')
+        self.assertTemplateUsed(response,
+                                'category/category_clothes_list.html')
+        self.assertEqual(len(response.context['category_clothes_list']), 1)
 
     def test_category_clothes_listing_for_logged_out_user(self):
         """Test for logged_out_user to access to category clotes list view"""
