@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Category clothes list{% endblock title %}
+{% block title %}Shop clothes list{% endblock title %}
 
 {% block content %}
 <ul>
-  {% for clothes in category_clothes_list %}
+  {% for clothes in shop_clothes_list %}
   <li>{{ clothes.name }}</li>
   <li>{{ clothes.description }}</li>
   <li>{{ clothes.purchased }}</li>

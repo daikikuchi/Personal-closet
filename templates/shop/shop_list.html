@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Shop list{% endblock title %}
+
+{% block content %}
+<ul>
+  {% for shop in shop_list %}
+  <li><a href="{% url 'clothes:shop_clothes' slug=shop.slug %}">{{shop.name}}</a></li>
+  {% endfor %}
+</ul>
+{% endblock content %}
