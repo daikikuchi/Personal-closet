@@ -28,7 +28,7 @@ def sample_subcategory(category, name='casual jacket'):
         )
 
 
-def sample_shop(user, name='beams', url='https://beams.com'):
+def sample_shop(user, name='Beams', url='https://beams.com'):
     return models.Shop.objects.create(
         user=user,
         name=name
