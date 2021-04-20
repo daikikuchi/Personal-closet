@@ -4,9 +4,14 @@
 {% block title %}Shop list{% endblock title %}
 
 {% block content %}
-<ul>
-  {% for shop in shop_list %}
-  <li><a href="{% url 'clothes:shop_clothes' slug=shop.slug %}">{{shop.name}}</a></li>
-  {% endfor %}
-</ul>
+{% regroup shop_list by name.0 as shops %}
+<ul> {% for shop in shops %} 
+  <li><h5><a name="{{ shop.grouper|first }}" id="{{ shop.grouper|first }}">{{ shop.grouper }}</a></h5>
+    {% for shop in shop.list %}
+    <div class="inline-block_brand">
+      <a name="{{shop.grouper|first }}"  id="{{ shop.grouper }}" href="{% url 'clothes:shop_clothes' slug=shop.slug %}">{{shop.name}}</a>
+    </div>
+    {% endfor %}
+  </li>
+  {% endfor %} </ul>
 {% endblock content %}

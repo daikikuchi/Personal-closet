@@ -1,12 +1,20 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block title %}Brand list{% endblock title %}
-
 {% block content %}
-<ul>
-  {% for brand in brand_list %}
-  <li><a href="{% url 'clothes:brand_clothes' slug=brand.slug id=brand.id %}">{{brand.name}}</a></li>
+
+
+{% regroup brand_list by name.0 as brands %}
+<ul> {% for brand in brands %}
+  <li>
+    <h5><a name="{{ brand.grouper|first }}" id="{{ brand.grouper|first }}">{{ brand.grouper }}</a></h5>
+    {% for brand in brand.list %}
+    <div class="inline-block_brand">
+      <a name="{{ brand.grouper|first }}" id="{{ brand.grouper }}"
+        href="{% url 'clothes:brand_clothes' slug=brand.slug id=brand.id %}">{{brand.name}}</a>
+    </div>
+    {% endfor %}
+  </li>
   {% endfor %}
 </ul>
 {% endblock content %}
