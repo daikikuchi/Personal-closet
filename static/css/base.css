@@ -161,6 +161,8 @@ div.field>input, div.field>textarea, div.field>select, div.field>button {
 @media screen and (min-width: 992px) {
 	/* remove the padding from the navbar so the dropdown hover state is not broken */
 	.navbar {
+		min-height:40px;
+		margin-bottom: 30px;
 		padding-top: 0px;
 		padding-bottom: 0px;
 	}

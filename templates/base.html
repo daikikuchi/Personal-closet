@@ -1,3 +1,4 @@
+{% load clothes_tags %}
 {% load static %}
 <!DOCTYPE html>
 <html>
@@ -14,7 +15,7 @@
 <body>
   <header>
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg py-1 navbar-dark bg-dark">
       <a class="navbar-brand" href="/">Personal Closet</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,18 +35,8 @@
               CATEGORY
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-
-              <ul class="nav flex-column" style="display:inline-block;">
-                <li class="nav-item" style="display:inline-block;">
-                  <a class="nav-link active" href="#">Active</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Link item</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Link item</a>
-                </li>
-              </ul>
+              {% show_categories %}
+              
             </div>
           </li>
         </ul>
