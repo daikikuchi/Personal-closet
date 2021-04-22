@@ -150,6 +150,7 @@ div.field>input, div.field>textarea, div.field>select, div.field>button {
 .navbar .dropdown-menu {
 	border: none;
 	background-color: black !important;
+	font-size: 18px;
 }
 
 .nav-item a {
