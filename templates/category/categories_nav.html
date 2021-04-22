@@ -1,7 +1,7 @@
 <ul class="nav flex-column" style="display:inline-block;">
     {% for category in categories %}
     <li class="nav-item">
-      <a class="nav-link active" href="{% url 'clothes:category_clothes' slug=category.slug %}">{{ category.name }}</a>
+      <a class="nav-link" href="{% url 'clothes:category_clothes' slug=category.slug %}">{{ category.name }}</a>
     </li>
     {% endfor %}
 </ul>

@@ -4,9 +4,19 @@
 {% block title %}Category list{% endblock title %}
 
 {% block content %}
-<ul>
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-5">
+      <h6 class="text-muted">List Group with Badges</h6>
+<ul class="list-group list-group-flush">
   {% for category in category_list %}
-  <li><a href="{% url 'clothes:category_clothes' slug=category.slug %}">{{category.name}}</a></li>
+  <ul class="list-group">
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <a href="{% url 'clothes:category_clothes' slug=category.slug %}">{{category.name}}</a>
+      <span class="badge badge-primary badge-pill">{{ category.category_clothes}}</span>
+    </li>
+  </ul>  
   {% endfor %}
 </ul>
+
 {% endblock content %}
