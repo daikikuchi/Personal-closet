@@ -201,10 +201,6 @@ div.field>input, div.field>textarea, div.field>select, div.field>button {
 	}
 }
 
-ui
-/* .navbar-nav li:hover .dropdown-menu {
-    display: block;
-}
 /* rotate caret on hover */
 
 .dropdown-menu>li>a:hover:after {
@@ -226,6 +222,29 @@ ui
     text-decoration: underline;
     cursor: pointer; */
 
-}
+/* home list */
 
-*/
+.box-list{
+		display: flex;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		justify-content: space-between;
+		flex-flow: row wrap;
+	   
+	  }
+.box-list li{
+		flex: 0 0 19%;
+		border: 1px solid #ccc;
+		margin-bottom: 10px;
+	  }
+
+img{
+		width: 300px;
+	  }
+
+.banner {
+		background: #a770ef;
+		background: -webkit-linear-gradient(to right, #a770ef, #cf8bf3, #fdb99b);
+		background: linear-gradient(to right, #a770ef, #cf8bf3, #fdb99b);
+	  }

@@ -5,6 +5,7 @@ from .views import (BrandListView, BrandClothesListView, CategoryListView,
 app_name = 'clothes'
 
 urlpatterns = [
+
     # Brands URLS
     path('brand/', BrandListView.as_view(), name='brand_list'),
     path('brand/<int:id>/<slug:slug>/',
