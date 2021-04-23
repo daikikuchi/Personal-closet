@@ -63,3 +63,9 @@ class ShopClothesView(LoginRequiredMixin, OwnerMixin):
         shop = get_object_or_404(Shop, slug=self.kwargs.get('slug'))
         queryset = super().get_queryset()
         return queryset.select_related('shop').filter(shop=shop.id)
+
+
+class ClothesListView(LoginRequiredMixin, OwnerMixin):
+    model = Clothes
+    context_object_name = 'clothes_list'
+    template_name = 'home.html'

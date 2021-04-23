@@ -210,7 +210,7 @@ class Cloths_Model_Test(TestCase):
         self.client.force_login(self.user)
         other_user = create_other_user()
 
-        # Create clothe object with logged_in user
+        # Create clothes object with logged_in user
         models.Clothes.objects.create(
             user=self.user,
             name='Lardini shirt Jacket',
@@ -222,7 +222,7 @@ class Cloths_Model_Test(TestCase):
             purchased=timezone.now(),
         )
 
-        # Create clothe object with other_user
+        # Create clothes object with other_user
         models.Clothes.objects.create(
             user=other_user,
             name='Gransasso Knit',
@@ -253,4 +253,52 @@ class Cloths_Model_Test(TestCase):
         response = self.client.get(
             '%s?next=/clothes/shop/%s/'
             % (reverse('account_login'), shop.slug))
+        self.assertContains(response, 'ログイン')
+
+    def test_clothes_listing_for_logged_in_user(self):
+        """Test list view of clothe objects for logged in user on"""
+        self.client.force_login(self.user)
+        other_user = create_other_user()
+
+        category = sample_category(self.user)
+
+        # Create clothes object with logged_in user
+        models.Clothes.objects.create(
+            user=self.user,
+            name='Lardini shirt Jacket',
+            price=35000,
+            description='ラルディーニのシャツジャケット',
+            brand=sample_brand(self.user),
+            sub_category=sample_subcategory(category=category),
+            shop=sample_shop(user=self.user),
+            purchased=timezone.now(),
+        )
+
+        # Create clothes object with other_user
+        models.Clothes.objects.create(
+            user=other_user,
+            name='Gransasso Knit',
+            price=22000,
+            description='Gransassoのシャツジャケット',
+            brand=sample_brand(user=other_user, name='Gransasso'),
+            sub_category=sample_subcategory(category=category),
+            shop=sample_shop(user=other_user, name='Ships'),
+            purchased=timezone.now(),
+        )
+        response = self.client.get(reverse('clothes_list_home'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Lardini')
+        self.assertTemplateUsed(response, 'home.html')
+        self.assertEqual(len(response.context['clothes_list']), 1)
+
+    def test_clothes_listing_for_logged_out_user(self):
+        """
+        Test accessing to list view of Clothes objects with logged out user
+        """
+        response = self.client.get(reverse('clothes_list_home'))
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(
+             response, '%s?next=/' % (reverse('account_login')))
+        response = self.client.get(
+            '%s?next=/' % (reverse('account_login')))
         self.assertContains(response, 'ログイン')

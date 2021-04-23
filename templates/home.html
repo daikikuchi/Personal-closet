@@ -4,17 +4,47 @@
 {% block title %}Home{% endblock title %}
 
 {% block content %}
-  <h1>Homepage</h1>
-   <img class="bookcover" src="{% static 'images/example.png' %}">
-  {% if user.is_authenticated %}
-    <h5>
-      Hi! {{user.email}}
-      {{ user.last_login }}
-    </h5>
-    <p><a href="{% url 'account_logout' %}">Log Out</a></p>
-  {% else %}
-    <p>You are not logged in</p>
-    <a href="{% url 'account_login' %}">Log In</a>
-    <a href="{% url 'account_signup' %}">Sign Up</a>
-  {% endif %}
-{% endblock content %}
+
+<div class="px-lg-5">
+
+  <!-- For demo purpose -->
+  <div class="row py-5">
+    <div class="col-lg-12 mx-auto">
+      <div class="text-white p-5 shadow-sm rounded banner">
+        <h1 class="display-4">Personal Closet</h1>
+        <p class="text-white">手持ちの服の記録を残そう！写真、サイズ、購入したお店、ブランドなど必要な情報を記録しよう！</p>
+        <p class="text-white">Snippet by <a href="https://bootstrapious.com/snippets" class="text-reset">
+            Bootstrapious</a>, Images by <a href="https://unsplash.com" class="text-reset">Unsplash</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+  <!-- End -->
+
+  <div class="row">
+    <!-- Clothes list -->
+    {% for clothes in clothes_list %}
+    <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+      {% if clothes.images %}
+      <div class="bg-white rounded shadow-sm"><img src="{{ clothes.images.url }}" alt="" class="img-fluid card-img-top">
+        {% else %}
+        <div class="bg-white rounded shadow-sm"><img
+            src="https://res.cloudinary.com/mhmd/image/upload/v1556294929/matthew-hamilton-351641-unsplash_zmvozs.jpg"
+            alt="" class="img-fluid card-img-top">
+          {% endif %}
+          <div class="p-4">
+            <h5> <a href="#" class="text-dark">{{clothes.brand}}</a></h5>
+            <p class="small text-muted mb-0">{{clothes.name}}</p>
+            <div class="d-flex align-items-center justify-content-between rounded-pill bg-light px-3 py-2 mt-4">
+              <p class="small mb-0"><i class="fa fa-picture-o mr-2"></i><span class="font-weight-bold">JPG</span></p>
+              <div class="badge badge-danger px-3 rounded-pill font-weight-normal">New</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      <!-- End -->
+    </div>
+    <div class="py-5 text-right"><a href="#" class="btn btn-dark px-5 py-3 text-uppercase">Show me more</a></div>
+  </div>
+  {% endblock content %}
