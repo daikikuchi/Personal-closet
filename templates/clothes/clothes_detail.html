@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Clothes Detail{% endblock title %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-6 detail-picture">
+      <img src="{{ clothes.images.url }}" alt="Kodak Brownie Flash B Camera" class="image-responsive" />
+    </div>
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-12">
+          <h3>{{ clothes.brand }} / {{ clothes.name }}</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table table-sm table-borderless mb-0">
+            <tbody>
+              <tr>
+                <th class="pl-0 w-25">
+                  <strong>ブランド</strong>
+                </th>
+                <td>{{ clothes.brand }}</td>
+              </tr>
+              <tr>
+                <th class="pl-0 w-25">
+                  <strong>価格</strong>
+                </th>
+                <td>{{ clothes.price }}円</td>
+              </tr>
+              <tr>
+                <th class="pl-0 w-25">
+                  <strong>カテゴリー</strong>
+                </th>
+                <td>{{ clothes.sub_category.category }}</td>
+              </tr>
+              <tr>
+                <th class="pl-0 w-25">
+                  <strong>購入店</strong>
+                </th>
+                <td>{{ clothes.shop }}</td>
+              </tr>
+              <tr>
+                <th class="pl-0 w-25">
+                  <strong>購入日</strong>
+                </th>
+                <td>{{ clothes.purchased }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-md-12">
+          <p>{{ clothes.description }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}
