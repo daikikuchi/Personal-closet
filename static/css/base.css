@@ -1,11 +1,27 @@
-.bookcover {
-	height: 300px;
-	width: auto;
-}
-
 body {
 	font-family: 'Roboto';
 }
+
+img{
+	width: 400px;
+  }
+
+/* .login-button {
+    background: none!important;
+    border: none;
+    padding: 0!important;
+    /*optional*/
+
+/* font-family: arial, sans-serif;
+    /*input has OS specific font-family*/
+
+/* color: #069;
+    text-decoration: underline;
+    cursor: pointer; */
+
+/* home list */
+
+/* login page */
 
 .box {
 	background-color: #fff;
@@ -54,10 +70,6 @@ body {
 	margin: 15px 0px;
 }
 
-p {
-	color: #aebbcb;
-}
-
 a {
 	color: #23a9f6;
 }
@@ -72,9 +84,6 @@ label {
 	color: #bdc7d4;
 }
 
-strong {
-	color: #95a5bb;
-}
 
 .form-control {
 	background: none;
@@ -120,10 +129,7 @@ div.field>input, div.field>textarea, div.field>select, div.field>button {
 	color: white;
 }
 
-.info-message {
-	background-color: rgb(108, 116, 236);
-	color: white;
-}
+/* Clothes list */
 
 .inline-block_brand {
 	display: inline-block;
@@ -208,22 +214,6 @@ div.field>input, div.field>textarea, div.field>select, div.field>button {
 	transform: rotate(-90deg);
 }
 
-*/
-/* .login-button {
-    background: none!important;
-    border: none;
-    padding: 0!important;
-    /*optional*/
-
-/* font-family: arial, sans-serif;
-    /*input has OS specific font-family*/
-
-/* color: #069;
-    text-decoration: underline;
-    cursor: pointer; */
-
-/* home list */
-
 .box-list{
 		display: flex;
 		margin: 0;
@@ -239,12 +229,35 @@ div.field>input, div.field>textarea, div.field>select, div.field>button {
 		margin-bottom: 10px;
 	  }
 
-img{
-		width: 300px;
-	  }
-
 .banner {
 		background: #a770ef;
 		background: -webkit-linear-gradient(to right, #a770ef, #cf8bf3, #fdb99b);
 		background: linear-gradient(to right, #a770ef, #cf8bf3, #fdb99b);
 	  }
+
+/* clothes detail page */
+.product_price {
+		display: inline-block;
+		font-size: 30px;
+		font-weight: 500;
+		margin-top: 9px;
+		clear: left
+	}
+
+table.table-sm td, table.table-sm th {
+		padding-top: .6rem;
+		padding-bottom: .6rem;
+	}
+
+.px-0 {
+		padding-left: 0!important;
+	}
+
+.w-25 {
+		width: 25%!important;
+}
+
+.detail-picture {
+	margin-bottom: 20px;
+	text-align: center;	
+}

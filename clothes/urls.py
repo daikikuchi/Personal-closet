@@ -1,10 +1,14 @@
 from django.urls import path
 from .views import (BrandListView, BrandClothesListView, CategoryListView,
-                    CategoryClothesListView, ShopListView, ShopClothesView)
+                    CategoryClothesListView, ShopListView, ShopClothesView,
+                    ClothesDetailView)
 
 app_name = 'clothes'
 
 urlpatterns = [
+
+    # Clothes detail URLS
+    path('<int:pk>/', ClothesDetailView.as_view(), name='clothes_detail'),
 
     # Brands URLS
     path('brand/', BrandListView.as_view(), name='brand_list'),

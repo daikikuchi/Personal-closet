@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Brand, Clothes, Category, Shop
@@ -69,3 +69,10 @@ class ClothesListView(LoginRequiredMixin, OwnerMixin):
     model = Clothes
     context_object_name = 'clothes_list'
     template_name = 'home.html'
+
+
+class ClothesDetailView(LoginRequiredMixin, DetailView):
+    model = Clothes
+    context_objecct_name = "clothes"
+    template_name = 'clothes/clothes_detail.html'
+  
