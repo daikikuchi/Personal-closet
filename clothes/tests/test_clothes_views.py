@@ -302,3 +302,27 @@ class Cloths_Model_Test(TestCase):
         response = self.client.get(
             '%s?next=/' % (reverse('account_login')))
         self.assertContains(response, 'ログイン')
+
+    def test_clothes_detail_view(self):
+        self.client.force_login(self.user)
+
+        category = sample_category(self.user)
+
+        # Create clothes object with logged_in user
+        self.clothes = models.Clothes.objects.create(
+            user=self.user,
+            name='Lardini shirt Jacket',
+            price=35000,
+            description='ラルディーニのシャツジャケット',
+            brand=sample_brand(self.user),
+            sub_category=sample_subcategory(category=category),
+            shop=sample_shop(user=self.user),
+            purchased=timezone.now(),
+        )
+        response = self.client.get(self.clothes.get_absolute_url())
+        no_response = self.client.get('/clothes/19/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(no_response.status_code, 404)
+        self.assertContains(response, 'Lardini shirt Jacket')
+        self.assertContains(response, 'ラルディーニのシャツジャケット')
+        self.assertTemplateUsed(response, 'clothes/clothes_detail.html')

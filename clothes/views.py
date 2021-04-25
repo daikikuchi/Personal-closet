@@ -75,4 +75,3 @@ class ClothesDetailView(LoginRequiredMixin, DetailView):
     model = Clothes
     context_objecct_name = "clothes"
     template_name = 'clothes/clothes_detail.html'
-  
