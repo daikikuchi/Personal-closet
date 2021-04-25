@@ -35,7 +35,7 @@
           <div class="p-4">
             <h5><a href="{% url 'clothes:brand_clothes' id=clothes.brand.id slug=clothes.brand.slug %}"
                 class="text-dark">{{clothes.brand}}</a></h5>
-            <p class="small text-muted mb-0"><a href="{% url 'clothes:clothes_detail' pk=clothes.id %}"
+            <p class="small text-muted mb-0"><a href="{{ clothes.get_absolute_url }}"
                 class="text-dark">{{clothes.name}}</a></p>
             <div class="d-flex align-items-center justify-content-between rounded-pill bg-light px-3 py-2 mt-4">
               <p class="small mb-0"><i class="fa fa-picture-o mr-2"></i><span class="font-weight-bold">JPG</span></p>
