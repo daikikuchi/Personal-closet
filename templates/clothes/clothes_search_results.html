@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Search Results{% endblock title %}
+
+{% block content %}
+
+<div class="row">
+  {% for clothes in clothes_list %}
+  {% include "clothes/_clothes_list.html" %}
+  {% endfor %}
+</div>
+{% endblock content %}
