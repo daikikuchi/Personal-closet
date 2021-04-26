@@ -4,13 +4,10 @@
 {% block title %}Shop clothes list{% endblock title %}
 
 {% block content %}
-<ul>
+
+<div class="row">
   {% for clothes in shop_clothes_list %}
-  <li>{{ clothes.name }}</li>
-  <li>{{ clothes.description }}</li>
-  <li>{{ clothes.purchased }}</li>
-  <li>{{ clothes.shop }}</li>
-  <br>
+  {% include "clothes/_clothes_list.html" %}
   {% endfor %}
-</ul>
+</div>
 {% endblock content %}

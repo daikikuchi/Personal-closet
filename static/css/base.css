@@ -5,6 +5,7 @@ body {
 img{
 	width: 400px;
   }
+  
 
 /* .login-button {
     background: none!important;
@@ -86,13 +87,13 @@ label {
 
 
 .form-control {
-	background: none;
 	height: 40px;
-	border: none;
+	border: border-bottom;
 	border-radius: 0px;
 	box-shadow: none;
 	color: #8b9eb6;
-	padding: 0px;
+	/* padding: 0px; */
+	padding: 10px;
 }
 
 .form-control:focus {
