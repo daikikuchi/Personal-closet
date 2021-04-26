@@ -9,9 +9,9 @@
       {% if clothes.images %}
       <img src="{{ clothes.images.url }}" alt="clothes-picture" class="image-responsive" />
       {% else %}
-        <div class="bg-white rounded shadow-sm"><img
+        <img
             src="https://res.cloudinary.com/mhmd/image/upload/v1556294929/matthew-hamilton-351641-unsplash_zmvozs.jpg"
-            alt="" class="img-fluid card-img-top">
+            alt="" class="image-responsive">
       {% endif %}
     </div>
     <div class="col-md-6">
@@ -66,5 +66,6 @@
       </div>
     </div>
   </div>
+</div>
 
 {% endblock content %}
