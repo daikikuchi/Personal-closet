@@ -256,7 +256,7 @@ class Cloths_Model_Test(TestCase):
         self.assertContains(response, 'ログイン')
 
     def test_clothes_listing_for_logged_in_user(self):
-        """Test list view of clothe objects for logged in user on"""
+        """Test list view of clothe objects for logged in user"""
         self.client.force_login(self.user)
         other_user = create_other_user()
 
@@ -304,6 +304,7 @@ class Cloths_Model_Test(TestCase):
         self.assertContains(response, 'ログイン')
 
     def test_clothes_detail_view(self):
+        """Test detail view for clothes"""
         self.client.force_login(self.user)
 
         category = sample_category(self.user)
@@ -326,3 +327,108 @@ class Cloths_Model_Test(TestCase):
         self.assertContains(response, 'Lardini shirt Jacket')
         self.assertContains(response, 'ラルディーニのシャツジャケット')
         self.assertTemplateUsed(response, 'clothes/clothes_detail.html')
+
+    def test_search_clothes_by_brand_name(self):
+        """Test returning clothes with specific brand name"""
+        self.client.force_login(self.user)
+
+        category = sample_category(self.user)
+
+        # Create clothes object to be included in search result
+        clothes1 = models.Clothes.objects.create(
+            user=self.user,
+            name='Lardini shirt Jacket',
+            price=35000,
+            description='ラルディーニのシャツジャケット',
+            brand=sample_brand(self.user, name='LARDINI'),
+            sub_category=sample_subcategory(category=category),
+            shop=sample_shop(user=self.user),
+            purchased=timezone.now(),
+        )
+        
+        # Create another clothes object not to be included in search result
+        clothes2 = models.Clothes.objects.create(
+            user=self.user,
+            name='Zanoneタートルネック',
+            price=35000,
+            description='Zanoneのタートルネック',
+            brand=sample_brand(self.user, name='ZANONE'),
+            sub_category=sample_subcategory(category=category),
+            shop=sample_shop(user=self.user, name='Ships'),
+            purchased=timezone.now(),
+        )
+        response = self.client.get("%s?q=%s" % (reverse('clothes:search_results'), clothes1.brand.name))
+        self.assertContains(response, clothes1.brand)
+        self.assertContains(response, clothes1.name)
+        self.assertEqual(len(response.context['clothes_list']), 1)
+        self.assertTemplateUsed(response, 'clothes/clothes_search_results.html')
+
+    def test_search_clothes_by_clothes_name(self):
+        """Test returning clothes with a part of clothes name"""
+        self.client.force_login(self.user)
+
+        category = sample_category(self.user)
+
+        # Create clothes object to be included in search result
+        clothes1 = models.Clothes.objects.create(
+            user=self.user,
+            name='YCHAI　ワンウォッシュコットンストレッチデニムジーンズ「ROBUSTO',
+            price=35000,
+            description='YPU004-2DS0001A サイズ31 ウエスト82 股上28 股下73 ワタリ31.5 裾幅18.8',
+            brand=sample_brand(self.user, name='YCHAI'),
+            sub_category=sample_subcategory(category=category),
+            shop=sample_shop(user=self.user),
+            purchased=timezone.now(),
+        )
+        
+         # Create another clothes object not to be included in search result
+        clothes2 = models.Clothes.objects.create(
+            user=self.user,
+            name='Zanoneタートルネック',
+            price=35000,
+            description='Zanoneのタートルネック',
+            brand=sample_brand(self.user, name='ZANONE'),
+            sub_category=sample_subcategory(category=category),
+            shop=sample_shop(user=self.user, name='Ships'),
+            purchased=timezone.now(),
+        )
+        response = self.client.get("%s?q=%s" % (reverse('clothes:search_results'), 'デニム'))
+        self.assertContains(response, clothes1.brand)
+        self.assertContains(response, clothes1.name)
+        self.assertEqual(len(response.context['clothes_list']), 1)
+        self.assertTemplateUsed(response, 'clothes/clothes_search_results.html')
+
+    def test_search_clothes_by_shop_name(self):
+        """Test returning clothes with specific shop name"""
+        self.client.force_login(self.user)
+
+        category = sample_category(self.user)
+
+        # Create clothes object to be included in search result
+        clothes1 = models.Clothes.objects.create(
+            user=self.user,
+            name='YCHAI　ワンウォッシュコットンストレッチデニムジーンズ「ROBUSTO',
+            price=35000,
+            description='YPU004-2DS0001A サイズ31 ウエスト82 股上28 股下73 ワタリ31.5 裾幅18.8',
+            brand=sample_brand(self.user, name='YCHAI'),
+            sub_category=sample_subcategory(category=category),
+            shop=sample_shop(user=self.user, name='Beams'),
+            purchased=timezone.now(),
+        )
+        
+         # Create another clothes object not to be included in search result
+        clothes2 = models.Clothes.objects.create(
+            user=self.user,
+            name='Zanoneタートルネック',
+            price=35000,
+            description='Zanoneのタートルネック',
+            brand=sample_brand(self.user, name='ZANONE'),
+            sub_category=sample_subcategory(category=category),
+            shop=sample_shop(user=self.user, name='Ships'),
+            purchased=timezone.now(),
+        )
+        response = self.client.get("%s?q=%s" % (reverse('clothes:search_results'), clothes1.shop.name))
+        self.assertContains(response, clothes1.brand)
+        self.assertContains(response, clothes1.name)
+        self.assertEqual(len(response.context['clothes_list']), 1)
+        self.assertTemplateUsed(response, 'clothes/clothes_search_results.html')
