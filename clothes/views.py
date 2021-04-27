@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 
 from .models import Brand, Clothes, Category, Shop
 
@@ -75,3 +76,16 @@ class ClothesDetailView(LoginRequiredMixin, DetailView):
     model = Clothes
     context_objecct_name = "clothes"
     template_name = 'clothes/clothes_detail.html'
+
+
+class ClothesSearchResultsListView(LoginRequiredMixin, OwnerMixin):
+    model = Clothes
+    context_object_name = 'clothes_list'
+    template_name = 'clothes/clothes_search_results.html'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get('q')
+        return (queryset.filter(
+            Q(name__icontains=query) |
+            Q(brand__name__icontains=query) | Q(shop__name__icontains=query)))
