@@ -1,69 +1,77 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% load clothes_tags %}
 {% block title %}Clothes Detail{% endblock title %}
 
 {% block content %}
-  <div class="row">
-    <div class="col-md-6 detail-picture">
-      {% if clothes.images %}
-      <img src="{{ clothes.images.url }}" alt="clothes-picture" class="image-responsive" />
-      {% else %}
-        <img
-            src="https://res.cloudinary.com/mhmd/image/upload/v1556294929/matthew-hamilton-351641-unsplash_zmvozs.jpg"
-            alt="" class="image-responsive">
-      {% endif %}
+<ul class="breadcrumb bg-light" itemscope itemtype="{% breadcrumb_schema %}">
+  {% url 'clothes_list_home' as home_url %}
+  {% breadcrumb_home url=home_url title='Home' %}
+  {% url 'clothes:brand_clothes' slug=clothes.brand.slug id=clothes.brand.id as brand_clothes%}
+  {% breadcrumb_item url=brand_clothes title=clothes.brand.name position=2 %}
+  {% url 'clothes:category_clothes' slug=clothes.sub_category.category.slug as category_clothes %}
+  {% breadcrumb_item url=category_clothes title=clothes.sub_category.category.name position=3 %}
+  {% breadcrumb_active url='' title=clothes.name position=4 %}
+</ul>
+<div class="row">
+  <div class="col-md-6 detail-picture">
+    {% if clothes.images %}
+    <img src="{{ clothes.images.url }}" alt="clothes-picture" class="image-responsive" />
+    {% else %}
+    <img src="https://res.cloudinary.com/mhmd/image/upload/v1556294929/matthew-hamilton-351641-unsplash_zmvozs.jpg"
+      alt="" class="image-responsive">
+    {% endif %}
+  </div>
+  <div class="col-md-6">
+    <div class="row">
+      <div class="col-md-12">
+        <h3>{{ clothes.brand }} / {{ clothes.name }}</h3>
+      </div>
     </div>
-    <div class="col-md-6">
-      <div class="row">
-        <div class="col-md-12">
-          <h3>{{ clothes.brand }} / {{ clothes.name }}</h3>
-        </div>
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-sm table-borderless mb-0">
+          <tbody>
+            <tr>
+              <th class="pl-0 w-25">
+                <strong>ブランド</strong>
+              </th>
+              <td>{{ clothes.brand }}</td>
+            </tr>
+            <tr>
+              <th class="pl-0 w-25">
+                <strong>価格</strong>
+              </th>
+              <td>{{ clothes.price }}円</td>
+            </tr>
+            <tr>
+              <th class="pl-0 w-25">
+                <strong>カテゴリー</strong>
+              </th>
+              <td>{{ clothes.sub_category.category }}</td>
+            </tr>
+            <tr>
+              <th class="pl-0 w-25">
+                <strong>購入店</strong>
+              </th>
+              <td>{{ clothes.shop }}</td>
+            </tr>
+            <tr>
+              <th class="pl-0 w-25">
+                <strong>購入日</strong>
+              </th>
+              <td>{{ clothes.purchased }}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <div class="row">
-        <div class="col-md-12">
-          <table class="table table-sm table-borderless mb-0">
-            <tbody>
-              <tr>
-                <th class="pl-0 w-25">
-                  <strong>ブランド</strong>
-                </th>
-                <td>{{ clothes.brand }}</td>
-              </tr>
-              <tr>
-                <th class="pl-0 w-25">
-                  <strong>価格</strong>
-                </th>
-                <td>{{ clothes.price }}円</td>
-              </tr>
-              <tr>
-                <th class="pl-0 w-25">
-                  <strong>カテゴリー</strong>
-                </th>
-                <td>{{ clothes.sub_category.category }}</td>
-              </tr>
-              <tr>
-                <th class="pl-0 w-25">
-                  <strong>購入店</strong>
-                </th>
-                <td>{{ clothes.shop }}</td>
-              </tr>
-              <tr>
-                <th class="pl-0 w-25">
-                  <strong>購入日</strong>
-                </th>
-                <td>{{ clothes.purchased }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <hr>
-      <div class="row">
-        <div class="col-md-12">
-          <p>{{ clothes.description }}</p>
-        </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-md-12">
+        <p>{{ clothes.description }}</p>
       </div>
     </div>
   </div>
+</div>
 {% endblock content %}

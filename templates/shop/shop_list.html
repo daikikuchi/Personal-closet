@@ -1,17 +1,28 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load clothes_tags %}
 
 {% block title %}Shop list{% endblock title %}
 
 {% block content %}
+<ul class="breadcrumb bg-light" itemscope itemtype="{% breadcrumb_schema %}">
+  {% url 'clothes_list_home' as home_url %}
+  {% breadcrumb_home url=home_url title='Home' %}
+  {% url 'clothes:shop_list' as shop_list_url %}
+  {% breadcrumb_active url=shop_list_url title='Shops' position=2 %}
+</ul>
+
 {% regroup shop_list by name.0 as shops %}
-<ul> {% for shop in shops %} 
-  <li><h5><a name="{{ shop.grouper|first }}" id="{{ shop.grouper|first }}">{{ shop.grouper }}</a></h5>
+<ul> {% for shop in shops %}
+  <li>
+    <h5><a name="{{ shop.grouper|first }}" id="{{ shop.grouper|first }}">{{ shop.grouper }}</a></h5>
     {% for shop in shop.list %}
     <div class="inline-block_brand">
-      <a name="{{shop.grouper|first }}"  id="{{ shop.grouper }}" href="{% url 'clothes:shop_clothes' slug=shop.slug %}">{{shop.name}}</a>
+      <a name="{{shop.grouper|first }}" id="{{ shop.grouper }}"
+        href="{% url 'clothes:shop_clothes' slug=shop.slug %}">{{shop.name}}</a>
     </div>
     {% endfor %}
   </li>
-  {% endfor %} </ul>
+  {% endfor %}
+</ul>
 {% endblock content %}

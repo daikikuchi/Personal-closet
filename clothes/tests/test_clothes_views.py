@@ -345,7 +345,7 @@ class Cloths_Model_Test(TestCase):
             shop=sample_shop(user=self.user),
             purchased=timezone.now(),
         )
-        
+
         # Create another clothes object not to be included in search result
         clothes2 = models.Clothes.objects.create(
             user=self.user,
@@ -357,11 +357,15 @@ class Cloths_Model_Test(TestCase):
             shop=sample_shop(user=self.user, name='Ships'),
             purchased=timezone.now(),
         )
-        response = self.client.get("%s?q=%s" % (reverse('clothes:search_results'), clothes1.brand.name))
+        response = (self.client.get("%s?q=%s" %
+                    (reverse('clothes:search_results'), clothes1.brand.name)))
         self.assertContains(response, clothes1.brand)
         self.assertContains(response, clothes1.name)
+        self.assertNotContains(response, clothes2.name)
+        self.assertNotContains(response, clothes2.brand)
         self.assertEqual(len(response.context['clothes_list']), 1)
-        self.assertTemplateUsed(response, 'clothes/clothes_search_results.html')
+        self.assertTemplateUsed(response,
+                                'clothes/clothes_search_results.html')
 
     def test_search_clothes_by_clothes_name(self):
         """Test returning clothes with a part of clothes name"""
@@ -374,14 +378,14 @@ class Cloths_Model_Test(TestCase):
             user=self.user,
             name='YCHAI　ワンウォッシュコットンストレッチデニムジーンズ「ROBUSTO',
             price=35000,
-            description='YPU004-2DS0001A サイズ31 ウエスト82 股上28 股下73 ワタリ31.5 裾幅18.8',
+            description='YPU004-2DS0001A サイズ31 ウエスト82 股上28 股下73 ワタリ31 裾幅18.8',
             brand=sample_brand(self.user, name='YCHAI'),
             sub_category=sample_subcategory(category=category),
             shop=sample_shop(user=self.user),
             purchased=timezone.now(),
         )
-        
-         # Create another clothes object not to be included in search result
+
+        # Create another clothes object not to be included in search result
         clothes2 = models.Clothes.objects.create(
             user=self.user,
             name='Zanoneタートルネック',
@@ -392,11 +396,15 @@ class Cloths_Model_Test(TestCase):
             shop=sample_shop(user=self.user, name='Ships'),
             purchased=timezone.now(),
         )
-        response = self.client.get("%s?q=%s" % (reverse('clothes:search_results'), 'デニム'))
+        response = self.client.get("%s?q=%s" %
+                                   (reverse('clothes:search_results'), 'デニム'))
         self.assertContains(response, clothes1.brand)
         self.assertContains(response, clothes1.name)
+        self.assertNotContains(response, clothes2.name)
+        self.assertNotContains(response, clothes2.brand)
         self.assertEqual(len(response.context['clothes_list']), 1)
-        self.assertTemplateUsed(response, 'clothes/clothes_search_results.html')
+        self.assertTemplateUsed(response,
+                                'clothes/clothes_search_results.html')
 
     def test_search_clothes_by_shop_name(self):
         """Test returning clothes with specific shop name"""
@@ -409,14 +417,14 @@ class Cloths_Model_Test(TestCase):
             user=self.user,
             name='YCHAI　ワンウォッシュコットンストレッチデニムジーンズ「ROBUSTO',
             price=35000,
-            description='YPU004-2DS0001A サイズ31 ウエスト82 股上28 股下73 ワタリ31.5 裾幅18.8',
+            description='YPU004-2DS0001A サイズ31 ウエスト82 股上28 股下73 ワタリ31 裾幅18.8',
             brand=sample_brand(self.user, name='YCHAI'),
             sub_category=sample_subcategory(category=category),
             shop=sample_shop(user=self.user, name='Beams'),
             purchased=timezone.now(),
         )
-        
-         # Create another clothes object not to be included in search result
+
+        # Create another clothes object not to be included in search result
         clothes2 = models.Clothes.objects.create(
             user=self.user,
             name='Zanoneタートルネック',
@@ -427,8 +435,12 @@ class Cloths_Model_Test(TestCase):
             shop=sample_shop(user=self.user, name='Ships'),
             purchased=timezone.now(),
         )
-        response = self.client.get("%s?q=%s" % (reverse('clothes:search_results'), clothes1.shop.name))
+        response = (self.client.get("%s?q=%s"
+                    % (reverse('clothes:search_results'), clothes1.shop.name)))
         self.assertContains(response, clothes1.brand)
         self.assertContains(response, clothes1.name)
+        self.assertNotContains(response, clothes2.name)
+        self.assertNotContains(response, clothes2.brand)
         self.assertEqual(len(response.context['clothes_list']), 1)
-        self.assertTemplateUsed(response, 'clothes/clothes_search_results.html')
+        self.assertTemplateUsed(response,
+                                'clothes/clothes_search_results.html')

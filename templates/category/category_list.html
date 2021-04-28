@@ -1,22 +1,28 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load clothes_tags %}
 
 {% block title %}Category list{% endblock title %}
 
 {% block content %}
+<ul class="breadcrumb bg-light" itemscope itemtype="{% breadcrumb_schema %}">
+  {% url 'clothes_list_home' as home_url %}
+  {% breadcrumb_home url=home_url title='Home' %}
+  {% url 'clothes:category_list' as category_list_url %}
+  {% breadcrumb_active url='' title='Categories' position=2 %}
+</ul>
 <div class="container">
   <div class="row">
     <div class="col-12 col-md-5">
-      <h6 class="text-muted">List Group with Badges</h6>
-<ul class="list-group list-group-flush">
-  {% for category in category_list %}
-  <ul class="list-group">
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-      <a href="{% url 'clothes:category_clothes' slug=category.slug %}">{{category.name}}</a>
-      <span class="badge badge-primary badge-pill">{{ category.category_clothes}}</span>
-    </li>
-  </ul>  
-  {% endfor %}
-</ul>
+      <ul class="list-group list-group-flush">
+        {% for category in category_list %}
+        <ul class="list-group">
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <a href="{% url 'clothes:category_clothes' slug=category.slug %}">{{category.name}}</a>
+            <span class="badge badge-primary badge-pill">{{ category.category_clothes}}</span>
+          </li>
+        </ul>
+        {% endfor %}
+      </ul>
 
-{% endblock content %}
+      {% endblock content %}
