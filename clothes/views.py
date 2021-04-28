@@ -24,8 +24,13 @@ class BrandClothesListView(LoginRequiredMixin, OwnerMixin):
     template_name = 'brand/brand_clothes_list.html'
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset.filter(brand=self.kwargs.get('id'))
+        self.queryset = super().get_queryset()
+        return self.queryset.filter(brand=self.kwargs.get('id'))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['brand_name'] = Brand.objects.get(id=self.kwargs.get('id'))
+        return context
 
 
 class CategoryListView(LoginRequiredMixin, OwnerMixin):
@@ -44,6 +49,12 @@ class CategoryClothesListView(LoginRequiredMixin, OwnerMixin):
         return (queryset.
                 filter(sub_category__category__slug=self.kwargs.get('slug')))
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category_name'] = (Category.objects
+                                    .get(slug=self.kwargs.get('slug')))
+        return context
+
 
 class ShopListView(LoginRequiredMixin, OwnerMixin):
     model = Shop
@@ -61,9 +72,23 @@ class ShopClothesView(LoginRequiredMixin, OwnerMixin):
     template_name = 'shop/shop_clothes_list.html'
 
     def get_queryset(self):
-        shop = get_object_or_404(Shop, slug=self.kwargs.get('slug'))
-        queryset = super().get_queryset()
-        return queryset.select_related('shop').filter(shop=shop.id)
+        self.queryset = super().get_queryset()
+        return self.queryset.filter(shop__slug=self.kwargs.get('slug'))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['shop_name'] = Shop.objects.get(slug=self.kwargs.get('slug'))
+        return context
+
+    # def get_queryset(self):
+    #     self.shop = get_object_or_404(Shop, slug=self.kwargs.get('slug'))
+    #     queryset = super().get_queryset()
+    #     return queryset.select_related('shop').filter(shop=self.shop.id)
+
+    # def get_context_data(self,**kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['shop_name'] = self.shop.name
+    #     return context
 
 
 class ClothesListView(LoginRequiredMixin, OwnerMixin):
@@ -89,3 +114,8 @@ class ClothesSearchResultsListView(LoginRequiredMixin, OwnerMixin):
         return (queryset.filter(
             Q(name__icontains=query) |
             Q(brand__name__icontains=query) | Q(shop__name__icontains=query)))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['search_word'] = self.request.GET.get('q')
+        return context

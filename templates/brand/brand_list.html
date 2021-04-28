@@ -1,7 +1,16 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load clothes_tags %}
+
 {% block title %}Brand list{% endblock title %}
 {% block content %}
+
+<ul class="breadcrumb bg-light" itemscope itemtype="{% breadcrumb_schema %}">
+  {% url 'clothes_list_home' as home_url %}
+  {% breadcrumb_home url=home_url title='Home' %}
+  {% url 'clothes:brand_list' as brand_list_url %}
+  {% breadcrumb_active url='' title='Brands' position=2 %}
+</ul>
 
 
 {% regroup brand_list by name.0 as brands %}

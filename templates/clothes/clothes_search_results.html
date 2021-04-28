@@ -1,13 +1,19 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% load clothes_tags %}
 {% block title %}Search Results{% endblock title %}
 
 {% block content %}
+<ul class="breadcrumb bg-light" itemscope itemtype="{% breadcrumb_schema %}">
+    {% url 'clothes_list_home' as home_url %}
+    {% breadcrumb_home url=home_url title='Home' %}
+    {% breadcrumb_active url='' title='検索結果' position=2 %}
+    {% breadcrumb_active url='' title=search_word position=3 %}
+</ul>
 
 <div class="row">
-  {% for clothes in clothes_list %}
-  {% include "clothes/_clothes_list.html" %}
-  {% endfor %}
+    {% for clothes in clothes_list %}
+    {% include "clothes/_clothes_list.html" %}
+    {% endfor %}
 </div>
 {% endblock content %}
