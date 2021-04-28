@@ -10,7 +10,7 @@
   {% url 'clothes_list_home' as home_url %}
   {% breadcrumb_home url=home_url title='Home' %}
   {% url 'clothes:shop_list' as shop_list_url %}
-  {% breadcrumb_item url=brand_list_url title='Brands' position=2 %}
+  {% breadcrumb_item url=shop_list_url title='Shop' position=2 %}
   {% breadcrumb_active url='' title=shop_name position=3 %}
 </ul>
 
