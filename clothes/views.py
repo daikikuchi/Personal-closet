@@ -96,7 +96,12 @@ class ClothesListView(LoginRequiredMixin, OwnerMixin):
     context_object_name = 'clothes_list'
     template_name = 'home.html'
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        # Using prefetcg_related to reduce query
+        return queryset.prefetch_related('sub_category__category')
 
+    # bundles = Bundle.objects.prefetch_related('items__category')
 class ClothesDetailView(LoginRequiredMixin, DetailView):
     model = Clothes
     context_objecct_name = "clothes"
