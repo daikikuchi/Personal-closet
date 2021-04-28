@@ -6,7 +6,10 @@ body {
 img{
 	width: 400px;
   }
-  
+
+ul {
+	list-style: none;
+  }
 
 /* .login-button {
     background: none!important;
