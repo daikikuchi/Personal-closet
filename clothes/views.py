@@ -1,4 +1,3 @@
-from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
@@ -23,9 +22,15 @@ class BrandClothesListView(LoginRequiredMixin, OwnerMixin):
     context_object_name = 'brand_clothes_list'
     template_name = 'brand/brand_clothes_list.html'
 
+    # Using select_related to reduce query
     def get_queryset(self):
-        self.queryset = super().get_queryset()
-        return self.queryset.filter(brand=self.kwargs.get('id'))
+        queryset = super().get_queryset()
+        return (queryset.filter(brand=self.kwargs.get('id'))
+                .select_related('sub_category__category'))
+
+    # def get_queryset(self):
+    #     self.queryset = super().get_queryset()
+    #     return self.queryset.filter(brand=self.kwargs.get('id'))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -44,10 +49,19 @@ class CategoryClothesListView(LoginRequiredMixin, OwnerMixin):
     context_object_name = 'category_clothes_list'
     template_name = 'category/category_clothes_list.html'
 
+    # def get_queryset(self):
+    #     queryset = super().get_queryset()
+    #     return (queryset.
+    #             filter(sub_category__category__slug=self.kwargs.get('slug')))
+
+    # Using select_related to reduce query
     def get_queryset(self):
         queryset = super().get_queryset()
-        return (queryset.
-                filter(sub_category__category__slug=self.kwargs.get('slug')))
+        cutegory_clothes = (queryset.filter(
+                 sub_category__category__slug=self.kwargs.get('slug'))
+                 .select_related('sub_category__category'))
+
+        return cutegory_clothes
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -72,13 +86,18 @@ class ShopClothesView(LoginRequiredMixin, OwnerMixin):
     template_name = 'shop/shop_clothes_list.html'
 
     def get_queryset(self):
-        self.queryset = super().get_queryset()
-        return self.queryset.filter(shop__slug=self.kwargs.get('slug'))
+        queryset = super().get_queryset()
+        return (queryset.filter(shop__slug=self.kwargs.get('slug'))
+                .select_related('sub_category__category'))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['shop_name'] = Shop.objects.get(slug=self.kwargs.get('slug'))
         return context
+
+    # def get_queryset(self):
+    #     self.queryset = super().get_queryset()
+    #     return self.queryset.filter(shop__slug=self.kwargs.get('slug'))
 
     # def get_queryset(self):
     #     self.shop = get_object_or_404(Shop, slug=self.kwargs.get('slug'))
@@ -98,10 +117,12 @@ class ClothesListView(LoginRequiredMixin, OwnerMixin):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        # Using prefetcg_related to reduce query
-        return queryset.prefetch_related('sub_category__category')
+        # Using select_related to reduce query
+        return queryset.select_related('sub_category__category')
+        # Using prefetch_related to reduce query
+        # return queryset.prefetch_related('sub_category__category')
 
-    # bundles = Bundle.objects.prefetch_related('items__category')
+
 class ClothesDetailView(LoginRequiredMixin, DetailView):
     model = Clothes
     context_objecct_name = "clothes"
