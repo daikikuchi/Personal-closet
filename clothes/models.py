@@ -6,6 +6,9 @@ from django.conf import settings
 from django.template.defaultfilters import slugify
 from django.urls import reverse
 
+from imagekit.models import ImageSpecField
+from pilkit.processors import Thumbnail
+
 
 def clothes_image_file_path(instance, filename):
     """Generate file path for new clothes image"""
@@ -130,6 +133,10 @@ class Clothes(models.Model):
     updated = models.DateTimeField(auto_now=True)
     images = models.ImageField(null=True, blank=True,
                                upload_to=clothes_image_file_path)
+    images_list = ImageSpecField(source='images',
+                                 processors=[Thumbnail(600, 400)],
+                                 format='JPEG',
+                                 options={'quality': 90})
     brand = models.ForeignKey(
          Brand,
          related_name='brand_clothes',
