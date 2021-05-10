@@ -128,6 +128,12 @@ class ClothesDetailView(LoginRequiredMixin, DetailView):
     context_objecct_name = "clothes"
     template_name = 'clothes/clothes_detail.html'
 
+    def get_queryset(self):
+        """Reduce the number of query by using select_related"""
+        queryset = super().get_queryset()
+        return (queryset.select_related('brand')
+                .select_related('sub_category__category'))
+
 
 class ClothesSearchResultsListView(LoginRequiredMixin, OwnerMixin):
     model = Clothes

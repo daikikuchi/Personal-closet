@@ -2,7 +2,7 @@
 <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
     {% if clothes.images %}
     <div class="bg-white rounded shadow-sm"><a href="{{ clothes.get_absolute_url }}">
-            <img src="{{ clothes.images.url }}" alt="" class="img-fluid card-img-top">
+            <img src="{{ clothes.images_list.url }}" alt="" class="img-fluid card-img-top">
             {% else %}
             <div class="bg-white rounded shadow-sm"><a href="{{ clothes.get_absolute_url }}"><img
                         src="https://res.cloudinary.com/mhmd/image/upload/v1556294929/matthew-hamilton-351641-unsplash_zmvozs.jpg"
